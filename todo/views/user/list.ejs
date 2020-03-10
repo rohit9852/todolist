@@ -1,0 +1,60 @@
+<%- include ../layouts/header.ejs %>
+
+<% if (messages.error) { %>
+	<p style="color:red"><%- messages.error %></p>
+<% } %>
+
+<% if (messages.success) { %>
+	<p style="color:green"><%- messages.success %></p>
+<% } %>	<style>
+	/* Checkbox element, when checked */
+	
+input[type="checkbox"]:checked {
+  box-shadow: 0 0 0 3px hotpink;
+}
+
+/* Option elements, when selected */
+tr{
+  box-shadow: 0 0 0 3px rgb(13, 15, 13);
+  color: red;
+}
+	
+  </style>
+
+<center>
+<table width='80%' border=0>
+
+	<tr style='text-align:left; background-color:#CCC'>
+		<th>Priority</th>
+		<th>Name</th>
+		
+		<th>Description</th>
+		<th>Action</th>
+	</tr>
+	
+	<% if (data) { %>
+	<% data.forEach(function(user){ %>
+		<tr>
+			<td><%= user.Priority %>
+			<input type="checkbox">
+			</td>
+			<td><%= user.name %></td>
+			
+			<td><%= user.Description %></td>
+			<td>
+				<div style="float:left">
+					<a href='/users/edit/<%= user._id %>'>
+						<i class='far fa-edit' style='font-size:36px'></i></a> &nbsp;							
+					<form method="post" action="/users/delete/<%= user._id %>" style="float:right">
+						<input type="submit" name="delete" value='Delete' onClick="return confirm('Are you sure you want to delete?')" />
+						<input type="hidden" name="_method" value="DELETE" />
+					</form>
+				</div>
+			</td>
+		</tr>
+	<% }) %>
+	<% } %>
+
+</table></center>
+
+<%- include ../layouts/footer.ejs %>
